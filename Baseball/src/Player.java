@@ -17,7 +17,7 @@ public class Player {
 	private int id;
 	private Player prevPlay;
 	private Player nextPlay;
-	public int lastId;
+	public static int lastId;
 	
 	//constructor only sets player name and team
 	//everything else will have to be edited in to avoid complication
@@ -25,7 +25,15 @@ public class Player {
 		this.firstName = first;
 		this.secondName = second;
 		this.team = team;
+		this.position = Position.Catcher;
+		this.battAvg = 0.0;
+		this.slug = 0.0;
+		this.onBase = 0.0;
+		this.prevPlay = null;
+		this.nextPlay = null;
+		lastId++;
 	}//end constructor
+	
 	
 	//make getters and setters
 	public void setFirstName(String value) {
@@ -87,6 +95,7 @@ public class Player {
 		return this.onBase;
 	}//end get
 	
+	//id only has a get
 	public int getId() {
 		return id;
 	}//end get
@@ -108,8 +117,8 @@ public class Player {
 	}//end get
 	
 	//method to add to last id
-	public void addLastId() {
-		++this.lastId;
+	public static void addLastId() {
+		++lastId;
 	}//end addLastId
 	
 	//method to round doubles
