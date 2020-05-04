@@ -17,7 +17,7 @@ public class Player {
 	private int id;
 	private Player prevPlay;
 	private Player nextPlay;
-	public static int lastId;
+	public static int lastId = 0;
 	
 	//constructor only sets player name and team
 	//everything else will have to be edited in to avoid complication
@@ -31,6 +31,7 @@ public class Player {
 		this.onBase = 0.0;
 		this.prevPlay = null;
 		this.nextPlay = null;
+		this.id = lastId;
 		lastId++;
 	}//end constructor
 	
