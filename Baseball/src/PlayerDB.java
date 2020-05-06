@@ -5,22 +5,28 @@ public class PlayerDB {
 	private Player tail;
 	private Player current;
 	
-	public static void main(String[] args) {
+/*	public static void main(String[] args) {
 		new PlayerDB();
 	}//end main
-	
+*/	
 	PlayerDB() {
-		Player a = new Player("a", "a", "a", 0);
-		Player b = new Player("b", "b", "b", 0);
-		Player c = new Player("c", "c", "c", 0);
+		Player a = new Player("a", "a", "a", Player.Position.Catcher, 0);
+		Player b = new Player("b", "b", "b", Player.Position.Catcher, 0);
+		Player c = new Player("c", "c", "c", Player.Position.Catcher, 0);
+		Player d = new Player("d", "d", "d", Player.Position.Catcher,0);
 		
 		append(a);
 		append(b);
 		append(c);
+		append(d);
 		
-		showAll();
+/*		showAll();
 		System.out.println(this.lenght());
 		System.out.println("");
+		
+		Player testPlayer = findPlayer(3);
+		String playerName = testPlayer.getFirstName();
+		System.out.println("First Name is: " + playerName);
 		
 		remove(1);
 		
@@ -32,7 +38,7 @@ public class PlayerDB {
 		append(n);
 		
 		showAll();
-	}//end constructor
+*/	}//end constructor
 	
 	//a method to show all objects in the list
 	public void showAll() {
@@ -110,13 +116,17 @@ public class PlayerDB {
 		//works under the assumption that the IDs are unique
 		Player finder = this.head;
 		Player result = null;
+		int counter = 0;
 		
-		while (finder.getNextPlay() != null) {
+		while (finder != null) {
 			//check each objects id to see if its id we're looking for
-			if(finder.getId() == index) {
+			if(counter == index) {
 				result = finder;
 			}//end if
+			
+			counter++;
 			finder = finder.getNextPlay();
+			
 		}//end for
 		
 		//if we went through entire list without finding anything, method should return null

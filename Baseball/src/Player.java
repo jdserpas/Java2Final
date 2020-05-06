@@ -21,11 +21,12 @@ public class Player {
 	
 	//constructor only sets player name and team
 	//everything else will have to be edited in to avoid complication
-	public Player (String first, String second, String team, double avg) {
+	public Player (String first, String second, String team, Position pos, double avg) {
 		this.firstName = first;
 		this.secondName = second;
 		this.team = team;
-		this.position = Position.Catcher;
+		this.position = pos;
+		avg = round(avg, 3);
 		this.battAvg = avg;
 		//this.slug = 0.0;
 		//this.onBase = 0.0;
