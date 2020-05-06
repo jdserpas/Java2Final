@@ -35,9 +35,12 @@ public class Interface extends JFrame implements ActionListener{
 	JButton addBttn = new JButton("Add");
 	//selector JPanel object
 	JLabel selectLbl = new JLabel("Please Select a Player");
-	JList<String> playerLst = new JList<>();
+	DefaultListModel<String> nameList = new DefaultListModel<>();
+	JList<String> playerLst = new JList<>(nameList);
 	//selectorSth JPanel object
-	JButton selectBttn = new JButton("Select");
+	JButton moreBttn = new JButton("More");
+	JButton edit2Bttn = new JButton("Edit Player");
+	JButton del2Bttn = new JButton("Delete Player");
 	
 	public Interface() {
 		init();
@@ -52,6 +55,7 @@ public class Interface extends JFrame implements ActionListener{
 		//primary JPanel
 		primary.setLayout(new BorderLayout());
 		primary.add(west, BorderLayout.WEST);
+		//primary.add(selectorSth, BorderLayout.SOUTH);
 		//west JPanel
 		west.setLayout(new BoxLayout(west, BoxLayout.Y_AXIS));
 		west.add(Box.createRigidArea(separator));
@@ -62,8 +66,10 @@ public class Interface extends JFrame implements ActionListener{
 		infoBttn.addActionListener(this);
 		west.add(Box.createRigidArea(separator));
 		west.add(editBttn);
+		editBttn.addActionListener(this);
 		west.add(Box.createRigidArea(separator));
 		west.add(delBttn);
+		delBttn.addActionListener(this);
 		west.add(Box.createRigidArea(separator));
 		west.add(saveBttn);
 		west.add(Box.createRigidArea(separator));
@@ -91,7 +97,12 @@ public class Interface extends JFrame implements ActionListener{
 		selector.add(playerLst);
 		//selectorSth JPanel
 		selectorSth.setVisible(false);
-		selectorSth.add(selectBttn);
+		selectorSth.add(moreBttn);
+		moreBttn.setVisible(false);
+		selectorSth.add(edit2Bttn);
+		edit2Bttn.setVisible(false);
+		selectorSth.add(del2Bttn);
+		del2Bttn.setVisible(false);
 		//firstTxt JTextField
 		firstTxt.setMaximumSize(new Dimension(50,20));
 		
@@ -112,12 +123,29 @@ public class Interface extends JFrame implements ActionListener{
 		}//end if
 		else if (source == infoBttn) {
 			hideAll();
-			selector.setVisible(true);
-			selectorSth.setVisible(true);
 			primary.add(selector, BorderLayout.CENTER);
 			primary.add(selectorSth, BorderLayout.SOUTH);
-			//loadJList();
+			selector.setVisible(true);
+			selectorSth.setVisible(true);
+			moreBttn.setVisible(true);
+			//loadList();
 		}//end if
+		else if (source == editBttn) {
+			hideAll();
+			primary.add(selector, BorderLayout.CENTER);
+			primary.add(selectorSth, BorderLayout.SOUTH);
+			selector.setVisible(true);
+			selectorSth.setVisible(true);
+			edit2Bttn.setVisible(true);
+		}//end else if
+		else if (source == delBttn) {
+			hideAll();
+			primary.add(selector, BorderLayout.CENTER);
+			primary.add(selectorSth, BorderLayout.SOUTH);
+			selector.setVisible(true);
+			selectorSth.setVisible(true);
+			del2Bttn.setVisible(true);
+		}
 	}//end actionPerformed
 	
 	//method to hide all JPanels before a new one is loaded
@@ -126,10 +154,29 @@ public class Interface extends JFrame implements ActionListener{
 		editSouth.setVisible(false);
 		selector.setVisible(false);
 		selectorSth.setVisible(false);
+		moreBttn.setVisible(false);
+		edit2Bttn.setVisible(false);
+		del2Bttn.setVisible(false);
 		primary.remove(edit);
 		primary.remove(editSouth);
 		primary.remove(selector);
 		primary.remove(selectorSth);
 	}//end hide all
+	
+	//method to load JList with all players
+	public void loadList(PlayerDB list) {
+		Player current;
+		String name;
+		int i;
+		//for every player
+		for (i = 0; i < list.lenght(); i++) {
+			//get player at current index
+			current = list.findPlayer(i);
+			//get that player's first and last name
+			name = current.getFirstName() + "" + current.getSecondName();
+			//add that player to the list
+			nameList.addElement(name);
+		}//end for
+	}//end loadList
 
 }//end class

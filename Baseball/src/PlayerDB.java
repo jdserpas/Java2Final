@@ -107,13 +107,10 @@ public class PlayerDB {
 	
 	//method to go through list and find desired object
 	public Player findPlayer(int index) {
-		//works under the assumption that the IDs are in order inside the list
+		//works under the assumption that the IDs are unique
 		Player finder = this.head;
 		Player result = null;
 		
-		//first parameter initializes finder to start of list(head)
-		//second parameter states that loop will keep going until last item is reached(next is null)
-		//third parameter moves the finder to its next object
 		while (finder.getNextPlay() != null) {
 			//check each objects id to see if its id we're looking for
 			if(finder.getId() == index) {
@@ -122,20 +119,17 @@ public class PlayerDB {
 			finder = finder.getNextPlay();
 		}//end for
 		
-		//if we went through entire list without finding anything method should return null
+		//if we went through entire list without finding anything, method should return null
 		return result;
 	}//end findPlayer
 	
-	//method to reset Id counter to the amount of players on the list
+	//method to return amount of players on the list
 	public int lenght() {
 		Player finder = this.head;
 		int amount= 0;
 		
-		//first parameter initializes finder to start of list(head)
-		//second parameter states that loop will keep going until last item is reached(next is null)
-		//third parameter moves the finder to its next object
 		while (finder != null) {
-			//check each objects id to see if its id we're looking for
+			//count how many times we loop
 			amount++;
 			finder = finder.getNextPlay();
 		}//end for
