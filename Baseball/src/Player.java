@@ -11,8 +11,8 @@ public class Player {
 	private String team;
 	private Position position;
 	private double battAvg = 0.0;
-	private double slug= 0.0;
-	private double onBase= 0.0;
+	//private double slug= 0.0;
+	//private double onBase= 0.0;
 	//database data
 	private Player prevPlay;
 	private Player nextPlay;
@@ -21,14 +21,14 @@ public class Player {
 	
 	//constructor only sets player name and team
 	//everything else will have to be edited in to avoid complication
-	public Player (String first, String second, String team) {
+	public Player (String first, String second, String team, double avg) {
 		this.firstName = first;
 		this.secondName = second;
 		this.team = team;
 		this.position = Position.Catcher;
-		this.battAvg = 0.0;
-		this.slug = 0.0;
-		this.onBase = 0.0;
+		this.battAvg = avg;
+		//this.slug = 0.0;
+		//this.onBase = 0.0;
 		this.prevPlay = null;
 		this.nextPlay = null;
 		
@@ -77,7 +77,7 @@ public class Player {
 	public double getBattAvg() {
 		return this.battAvg;
 	}//end get
-	
+	/*
 	public void setSlug(double value) {
 		value = round(value,3);
 		this.slug = value;
@@ -95,7 +95,7 @@ public class Player {
 	public double getOnBase() {
 		return this.onBase;
 	}//end get
-	
+	*/
 	//id only has a get
 	public int getId() {
 		return id;

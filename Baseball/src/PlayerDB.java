@@ -10,9 +10,9 @@ public class PlayerDB {
 	}//end main
 	
 	PlayerDB() {
-		Player a = new Player("a", "a", "a");
-		Player b = new Player("b", "b", "b");
-		Player c = new Player("c", "c", "c");
+		Player a = new Player("a", "a", "a", 0);
+		Player b = new Player("b", "b", "b", 0);
+		Player c = new Player("c", "c", "c", 0);
 		
 		append(a);
 		append(b);
@@ -28,7 +28,7 @@ public class PlayerDB {
 		System.out.println(this.lenght());
 		System.out.println("");
 		
-		Player n = new Player("n", "n", "n");
+		Player n = new Player("n", "n", "n", 0);
 		append(n);
 		
 		showAll();
