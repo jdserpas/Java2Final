@@ -12,8 +12,6 @@ public class Player implements Serializable {
 	private String team;
 	private Position position;
 	private double battAvg = 0.0;
-	//private double slug= 0.0;
-	//private double onBase= 0.0;
 	//database data
 	private Player prevPlay;
 	private Player nextPlay;
@@ -79,25 +77,7 @@ public class Player implements Serializable {
 	public double getBattAvg() {
 		return this.battAvg;
 	}//end get
-	/*
-	public void setSlug(double value) {
-		value = round(value,3);
-		this.slug = value;
-	}//end set
 	
-	public double getSlug() {
-		return this.slug;
-	}//end get
-	
-	public void setOnBase(double value) {
-		value = round(value, 3);
-		this.onBase = value;
-	}//end set
-	
-	public double getOnBase() {
-		return this.onBase;
-	}//end get
-	*/
 	//id only has a get
 	public int getId() {
 		return id;

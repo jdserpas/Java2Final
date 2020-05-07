@@ -5,35 +5,13 @@ public class PlayerDB implements Serializable{
 	private Player head;
 	private Player tail;
 	private Player current;
-	
-/*	public static void main(String[] args) {
-		new PlayerDB();
-	}//end main
-*/	
+		
 	PlayerDB() {
 		Player a = new Player("Default", "Player", "Default Team", Player.Position.Catcher, 0);
 		
 		append(a);
 		
-/*		showAll();
-		System.out.println(this.lenght());
-		System.out.println("");
-		
-		Player testPlayer = findPlayer(3);
-		String playerName = testPlayer.getFirstName();
-		System.out.println("First Name is: " + playerName);
-		
-		remove(1);
-		
-		showAll();
-		System.out.println(this.lenght());
-		System.out.println("");
-		
-		Player n = new Player("n", "n", "n", 0);
-		append(n);
-		
-		showAll();
-*/	}//end constructor
+	}//end constructor
 	
 	//a method to show all objects in the list
 	public void showAll() {
