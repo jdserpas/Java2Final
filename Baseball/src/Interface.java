@@ -1,6 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.*;
 //this will be the class with the main user interface
 public class Interface extends JFrame implements ActionListener{
 	
@@ -18,6 +19,7 @@ public class Interface extends JFrame implements ActionListener{
 	JPanel editSouth = new JPanel();
 	JPanel selector = new JPanel();
 	JPanel selectorSth = new JPanel();
+	JPanel display = new JPanel();
 	//dimension
 	Dimension separator = new Dimension(0,10);//separator between buttons
 	//west JPanel objects
@@ -38,13 +40,19 @@ public class Interface extends JFrame implements ActionListener{
 	JButton addBttn = new JButton("Add");
 	JButton modifyBttn = new JButton("Modify");
 	//selector JPanel object
-	JLabel selectLbl = new JLabel("Please Select a Player");
 	DefaultListModel<String> nameList = new DefaultListModel<>();
 	JList<String> playerLst = new JList<>(nameList);
 	//selectorSth JPanel object
 	JButton moreBttn = new JButton("More");
 	JButton edit2Bttn = new JButton("Edit Player");
 	JButton del2Bttn = new JButton("Delete Player");
+	//display JPanel object
+	JLabel firstLbl = new JLabel("First Name: ");
+	JLabel secondLbl = new JLabel("Second Name: ");
+	JLabel teamLbl = new JLabel("Team: ");
+	JLabel positionLbl = new JLabel("Position: ");
+	JLabel avgLbl = new JLabel("Batting Average:");
+	JButton cancelBttn = new JButton("Cancel");
 	
 	public Interface() {
 		init();
@@ -56,6 +64,7 @@ public class Interface extends JFrame implements ActionListener{
 		//Interface JFrame
 		this.setSize(500, 300);
 		this.add(primary);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		//primary JPanel
 		primary.setLayout(new BorderLayout());
 		primary.add(west, BorderLayout.WEST);
@@ -76,10 +85,13 @@ public class Interface extends JFrame implements ActionListener{
 		delBttn.addActionListener(this);
 		west.add(Box.createRigidArea(separator));
 		west.add(saveBttn);
+		saveBttn.addActionListener(this);
 		west.add(Box.createRigidArea(separator));
 		west.add(loadBttn);
+		loadBttn.addActionListener(this);
 		west.add(Box.createRigidArea(separator));
 		west.add(exitBttn);
+		exitBttn.addActionListener(this);
 		west.add(Box.createRigidArea(separator));
 		//edit JPanel
 		edit.setVisible(false);
@@ -102,11 +114,12 @@ public class Interface extends JFrame implements ActionListener{
 		modifyBttn.setVisible(false);
 		//selector JPanel
 		selector.setVisible(false);
-		selector.add(selectLbl);
+		selector.setLayout(new GridLayout(0,1));
 		selector.add(playerLst);
 		//selectorSth JPanel
 		selectorSth.setVisible(false);
 		selectorSth.add(moreBttn);
+		moreBttn.addActionListener(this);
 		moreBttn.setVisible(false);
 		selectorSth.add(edit2Bttn);
 		edit2Bttn.addActionListener(this);
@@ -114,8 +127,16 @@ public class Interface extends JFrame implements ActionListener{
 		selectorSth.add(del2Bttn);
 		del2Bttn.addActionListener(this);
 		del2Bttn.setVisible(false);
-		//firstTxt JTextField
-		firstTxt.setMaximumSize(new Dimension(50,20));
+		//display JPanel
+		display.setVisible(false);
+		display.setLayout(new GridLayout(0, 1));
+		display.add(firstLbl);
+		display.add(secondLbl);
+		display.add(teamLbl);
+		display.add(positionLbl);
+		display.add(avgLbl);
+		display.add(cancelBttn);
+		cancelBttn.addActionListener(this);
 		
 		this.setVisible(true);
 		
@@ -170,6 +191,62 @@ public class Interface extends JFrame implements ActionListener{
 			loadList(players);
 			playerLst.setSelectedIndex(0);
 		}//end else if
+		else if (source == saveBttn) {
+			JFileChooser chooser = new JFileChooser();
+			File workingDir = new File(System.getProperty("user.dir"));
+			chooser.setCurrentDirectory(workingDir);
+			int returnVal = chooser.showOpenDialog(this);
+			
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				try {
+					File theFile = chooser.getSelectedFile();
+					FileOutputStream fo = new FileOutputStream(theFile);
+					ObjectOutputStream obOut = new ObjectOutputStream(fo);
+					obOut.writeObject(players);
+					obOut.close();
+				}//end try
+				catch (IOException x) {
+					JOptionPane.showMessageDialog(null, 
+							  					  "Something went wrong",
+							  					  "Error",
+							  					  JOptionPane.ERROR_MESSAGE);
+				}//end catch
+			}//end if
+			
+		}//end else if
+		else if (source == loadBttn) {
+			JFileChooser chooser = new JFileChooser();
+			File workingDir = new File(System.getProperty("user.dir"));
+			chooser.setCurrentDirectory(workingDir);
+			
+			int returnVal = chooser.showOpenDialog(this);
+			
+			if(returnVal == JFileChooser.APPROVE_OPTION) {
+				try {
+					File theFile = chooser.getSelectedFile();
+					FileInputStream fi = new FileInputStream(theFile);
+					ObjectInputStream obIn = new ObjectInputStream(fi);
+					players = (PlayerDB)obIn.readObject();
+					obIn.close();
+				}//end try
+				catch (IOException x) {
+					JOptionPane.showMessageDialog(null, 
+		  					  					  "Something went wrong",
+		  					  					  "Error",
+		  					  					  JOptionPane.ERROR_MESSAGE);
+				}//end catch
+				catch (ClassNotFoundException x) {
+					JOptionPane.showMessageDialog(null, 
+		  					  					  "Something went wrong",
+		  					  					  "Error",
+		  					  					  JOptionPane.ERROR_MESSAGE);
+				}//end catch
+			}//end if
+			
+		}//end else if
+		else if (source == exitBttn) {
+			this.dispose();
+		}//end else if
 		else if (source == addBttn) {
 			//get info player put in
 			String nFirstName = firstTxt.getText();
@@ -201,6 +278,26 @@ public class Interface extends JFrame implements ActionListener{
 			avgTxt.setText("");
 			
 		}//end else if
+		else if (source == moreBttn) {
+			//get selected player
+			int selection = playerLst.getSelectedIndex();
+			tempPlayer = players.findPlayer(selection);
+			
+			//load displayer
+			hideAll();
+			primary.add(display);
+			display.setVisible(true);
+			firstLbl.setText("First Name: " + tempPlayer.getFirstName());
+			secondLbl.setText("Second Name: " + tempPlayer.getSecondName());
+			teamLbl.setText("Team: " + tempPlayer.getTeam());
+			Player.Position tempPosition = tempPlayer.getPosition();
+			positionLbl.setText("Team: " + tempPosition.toString());
+			avgLbl.setText("Batting Average: " + Double.toString(tempPlayer.getBattAvg()));
+			
+		}//end else if
+		else if (source == cancelBttn) {
+			hideAll();
+		}//else if
 		else if (source == edit2Bttn) {
 			//get selected player
 			int selection = playerLst.getSelectedIndex();
@@ -222,6 +319,32 @@ public class Interface extends JFrame implements ActionListener{
 			avgTxt.setText(Double.toString(tempPlayer.getBattAvg()));
 			
 		}//end else if
+		else if (source == modifyBttn) {
+			//get info player put in
+			String nFirstName = firstTxt.getText();
+			String nSecondName = secondTxt.getText();
+			String nTeam = teamTxt.getText();
+			Player.Position position = (Player.Position)positionCmb.getSelectedItem();
+			String avgString = avgTxt.getText();
+			double avg;
+			try {
+				avg = Double.parseDouble(avgString);
+			}//end try
+			catch(NumberFormatException f) {
+				avg = 0.0;
+			}//end catch
+			
+			tempPlayer.setFirstName(nFirstName);
+			tempPlayer.setSecondName(nSecondName);
+			tempPlayer.setTeam(nTeam);
+			tempPlayer.setPosition(position);
+			tempPlayer.setBattAvg(avg);
+			
+			JOptionPane.showMessageDialog(this, 
+										  "Player modified successfuly!", 
+										  "Success", 
+										  JOptionPane.INFORMATION_MESSAGE);
+		}//end else if
 		else if (source == del2Bttn) {
 			int selection = playerLst.getSelectedIndex();
 			players.remove(selection);
@@ -241,10 +364,13 @@ public class Interface extends JFrame implements ActionListener{
 		modifyBttn.setVisible(false);
 		edit2Bttn.setVisible(false);
 		del2Bttn.setVisible(false);
+		edit.setVisible(false);
+		display.setVisible(false);
 		primary.remove(edit);
 		primary.remove(editSouth);
 		primary.remove(selector);
 		primary.remove(selectorSth);
+		primary.remove(display);
 	}//end hide all
 	
 	//method to load JList with all players

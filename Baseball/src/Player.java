@@ -1,5 +1,6 @@
+import java.io.*;
 
-public class Player {
+public class Player implements Serializable {
 
 	//make enumeration so positions are fixed
 	enum Position {Catcher, First, Second, Shortstop, Third,

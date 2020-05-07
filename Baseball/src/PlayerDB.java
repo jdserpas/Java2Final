@@ -1,5 +1,6 @@
+import java.io.*;
 
-public class PlayerDB {
+public class PlayerDB implements Serializable{
 
 	private Player head;
 	private Player tail;
@@ -10,15 +11,9 @@ public class PlayerDB {
 	}//end main
 */	
 	PlayerDB() {
-		Player a = new Player("a", "a", "a", Player.Position.Catcher, 0);
-		Player b = new Player("b", "b", "b", Player.Position.Catcher, 0);
-		Player c = new Player("c", "c", "c", Player.Position.Catcher, 0);
-		Player d = new Player("d", "d", "d", Player.Position.Catcher,0);
+		Player a = new Player("Default", "Player", "Default Team", Player.Position.Catcher, 0);
 		
 		append(a);
-		append(b);
-		append(c);
-		append(d);
 		
 /*		showAll();
 		System.out.println(this.lenght());
@@ -92,10 +87,17 @@ public class PlayerDB {
 			//in all other cases, object can be removed
 			Player temp;
 			
-			//take rmv's previous player, assign it rmv's next
-			temp = rmv.getPrevPlay();
-			temp.setNextPlay(rmv.getNextPlay());
-			
+			//check to see if rmv is first object on the list
+			if (rmv.getPrevPlay() == null) {
+				//it it's the first object, it's next object becomes the new first
+				this.head =rmv.getNextPlay();
+			}//end if 
+			else {
+				//take rmv's previous player, assign it rmv's next
+				temp = rmv.getPrevPlay();
+				temp.setNextPlay(rmv.getNextPlay());
+			}
+			//end if
 			//check to see if rmv is last object on the list
 			if(rmv.getNextPlay() == null) {
 				//if it's the last item, it's previous becomes new tail
